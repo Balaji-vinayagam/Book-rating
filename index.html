@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Book review page</title>
+  <style>
+     
+    
+  </style>
+</head>
+<body>
+  <div id="getbook">
+    <h1>Book review page</h1>
+    <button onclick="fetchList()">Get Book List</button><br>
+  </div>
+  
+  <button id="addbookbtn" onclick="document.getElementById('form').style.display ='block',document.getElementById('addbookbtn').style.display ='none';
+  document.getElementById('table').style.display ='none'">Add a Book</button><br>
+
+  <div id="form">
+     <label for="bookname">Enter the Book name</label>
+     <input type="text" name="bookname" id="bookname" required><br><br>
+     <label for="authorname">Enter Author name</label>
+     <input type="text" name="authorname" id="authorname" required><br><br>
+     <button onclick="addBook(bookname.value,authorname.value)">Add</button>
+  </div>
+  <div id="table">
+    <table id="table_info" border="1">
+      <thead>
+        <tr>
+          <td><b>Book Title</b></td>
+          <td><b>Author</b></td>
+          <td colspan="2"><b>Votings</b></td>
+          <td id="rating"><b>Ratings</b></td>
+          <td><b>Remove</b></td>
+        </tr>
+      </thead>
+      <tbody id="table_body">
+         
+      </tbody>
+    </table></div>
+
+   <script>
+     const results = [];
+     function fetchList(){
+      fetch("https://www.googleapis.com/books/v1/volumes?q=random")
+       .then(response => response.json())
+       .then(data =>{
+        
+        let len =results.length;
+        for(let i=len;i<len+10;i++){
+          results.push(data.items[i].volumeInfo);
+          results[i].id=i;
+          results[i].rating = 0;
+        }
+        
+        displayInfo(results);
+      })
+     }
+     function displayInfo(results){
+      const tableBody = document.getElementById('table_body');
+      tableBody.innerHTML = '';
+        results.forEach(res =>{
+          const row = document.createElement('tr');
+          row.innerHTML = `
+                          <td>${res.title}</td>
+                          <td>${res.authors[0]}</td>
+                         <td><button class="like" data-id="${res.id}" >vote-up</button></td>
+                         <td><button class="dislike" data-id="${res.id}">vote-down</button></td>
+                         <td id="${res.id}"=>${res.rating}</td>
+                         <td><button class="delete" data-id="${res.id}">Delete</button></td>`;
+        document.getElementById('table').style.display ='block';
+        document.getElementById('addbookbtn').style.display ='block';
+        document.getElementById('getbook').style.display ='none';
+        tableBody.appendChild(row);
+
+        })
+     }
+
+     function sortList(){
+      const sortedList = results.sort((a,b)=> b.rating - a.rating);
+      console.log("sortedList",sortedList);
+      displayInfo(sortedList);
+     }
+
+     function addBook(bname,aname){
+      if(bname != null & bname != "" && aname != null & aname != ""){
+       let len = results.length;
+       console.log("len",len);
+       results.push({});
+      //  results.push(id:"len",title=bname,authors=[aname],rating=0);
+          results[len].id=len;
+          results[len].rating = 0;      
+          results[len].title=bname;
+          results[len].authors = [aname];
+       console.log("new array",results);  
+       document.getElementById('form').style.display ='none'; 
+       document.getElementById('bookname').value = "";
+       document.getElementById('authorname').value = "";
+
+       displayInfo(results);
+      }else{
+        alert("please fill in the details")
+      }
+     }
+
+     document.addEventListener('click',function(event){
+      console.log("event",event);
+      console.log("event_target ",event.target);
+      const target = event.target;
+      if(target.classList.contains('like')){
+        const bookId = parseInt(target.getAttribute('data-id'));
+        console.log("bookId",bookId);
+        const book = results.find(book => book.id === bookId);
+        console.log("book ",book);
+        if(book){
+            book.rating++;
+            console.log(results[0].rating);
+            document.getElementById(bookId).innerHTML = book.rating;
+            sortList();
+        }
+      }else if(target.classList.contains('dislike')){
+        const bookId = parseInt(target.getAttribute('data-id'));
+        const book = results.find(book => book.id === bookId);
+        if(book && book.rating > 0){
+            book.rating--;
+            console.log(results[0].rating);
+            document.getElementById(bookId).innerHTML = book.rating;
+            sortList();
+        }
+      }else if(target.classList.contains('delete')){
+        const bookId = parseInt(target.getAttribute('data-id'));
+        const index = results.findIndex(item => item.id === bookId);
+        results.splice(index, 1);
+        console.log(results);
+        displayInfo(results);
+      }
+     })
+
+   </script>
+</body>
+</html>

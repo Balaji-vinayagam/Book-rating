@@ -1,0 +1,114 @@
+body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    background-image: url('./assets/');
+    background-color: rgba(10, 10, 10, 0.8);
+    background-size: cover; 
+    background-position: center;
+    background-blend-mode: overlay;
+    justify-content: center;
+  }
+ h1{
+    font-size: 3em;
+  margin-bottom: 30px;
+  color: #007bff;
+  background: linear-gradient(to right, #007bff, #28a745);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+ }
+  #getbook{
+   text-align: center;
+   
+}
+#addbookbtn{
+    position: fixed;
+    bottom: 570px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+#form{
+    background: rgba(255, 255, 255, 0.2);
+  max-width: 300px;
+  margin: 100px auto;
+  text-align: center;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #f7f6f6;
+    cursor: pointer;
+    transition: border-color 0.25s;
+  }
+  button:hover {
+    border-color: #646cff;
+  }
+
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+  }
+  
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+    background-color: #343a40;
+    color: #fff;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+th {
+    cursor: pointer;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+tbody tr.active {
+    background-color: #007bff;
+    color: #fff;
+}
+  #form,#addbookbtn{
+    display: none;
+   }
+   #table{
+    display: none;
+   }
+   #table_info{
+    border-collapse: collapse;
+   }
+
